@@ -19,6 +19,7 @@
     'version': '0.4',
 
     # any module necessary for this one to work correctly
+
     'depends': ['base','purchase'],
 
     # always loaded
