@@ -1,0 +1,61 @@
+<odoo>
+    <record id="stock_picking_bol_fields" model="ir.ui.view">
+        <field name="name">stock.picking.bol.fiels</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <data>
+                <field name="origin" position="after">
+                    <field name="freight_charge" attrs="{'invisible': [('picking_type_code', '!=', 'outgoing')]}"/>
+                    <field name="fob_remark" attrs="{'invisible': [('picking_type_code', '!=', 'outgoing')]}" />
+                </field>
+            </data>
+        </field>
+    </record>
+
+    <record id="account_move_bol_fields" model="ir.ui.view">
+        <field name="name">account.move.bol.fiels</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <data>
+                <field name="company_id" position="before">
+                    <field name="customer_part_number" />
+                </field>
+            </data>
+        </field>
+    </record>
+
+    <record id="sale_order_bol_fields" model="ir.ui.view">
+        <field name="name">sale.order.bol.fiels</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <data>
+                <field name="client_order_ref" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="payment_term_id" position="after">
+                    <field name="client_order_ref" />
+                    <field name="customer_part_number" />
+                </field>
+            </data>
+        </field>
+    </record>
+
+    <record id="product_product_bol_fields" model="ir.ui.view">
+        <field name="name">product.product.bol.fiels</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+            <data>
+                <field name="default_code" position="after">
+                    <field name="freight_class" />
+                </field>
+                <field name="company_id" position="before">
+                    <field name="bol_shipping_description" />
+                </field>
+            </data>
+        </field>
+    </record>
+</odoo>
