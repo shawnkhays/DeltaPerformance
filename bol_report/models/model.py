@@ -90,8 +90,8 @@ class AccountMoveLine(models.Model):
     customer_part_number = fields.Text('Customer Part #', copy=True)
 
 
-class ProductProduct(models.Model):
-    _inherit = "product.product"
+class ProductTemplate(models.Model):
+    _inherit = "product.template"
 
     freight_class = fields.Char('Freight Class')
     bol_shipping_description = fields.Text('BOL Shipping Description')
