@@ -46,10 +46,10 @@
         </field>
     </record>
 
-    <record id="product_product_bol_fields" model="ir.ui.view">
-        <field name="name">product.product.bol.fiels</field>
-        <field name="model">product.product</field>
-        <field name="inherit_id" ref="product.product_normal_form_view"/>
+    <record id="product_template_bol_fields" model="ir.ui.view">
+        <field name="name">product.template.bol.fiels</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
         <field name="arch" type="xml">
             <data>
                 <field name="default_code" position="after">
