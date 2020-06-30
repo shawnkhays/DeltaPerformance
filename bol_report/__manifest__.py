@@ -11,6 +11,7 @@ New Report
         'stock',
         'sale',
         'account',
+        'sale_stock',
     ],
     'data': [
         'views/view.xml',

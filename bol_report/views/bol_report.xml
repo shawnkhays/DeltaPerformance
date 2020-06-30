@@ -66,16 +66,16 @@
                                     <span t-field="o.sale_id.client_order_ref"/>
                                 </td>
                                 <td style="width: 15%;border: 1px solid black;text-align: center">
-                                    <span t-field="o.scheduled_date" t-options='{"format": "m/d/yyy"}'/>
+                                    <span t-field="o.scheduled_date" t-options='{"format": "MM/dd/yyyy"}'/>
                                 </td>
                                 <td style="width: 17%;border: 1px solid black;text-align: center">
-                                    <span t-field="o.freight_charge"/>
+                                    <span t-field="o.sale_id.freight_charge"/>
                                 </td>
                                 <td style="width: 20%;border: 1px solid black;text-align: center">
-                                    <span t-field="o.fob_remark"/>
+                                    <span t-field="o.sale_id.fob_remark"/>
                                 </td>
                                 <td style="width: 10%;border: 1px solid black;text-align: center">
-                                    <span t-field="o.date_done" t-options='{"format": "m/d/yyy"}'/>
+                                    <span t-field="o.date_done" t-options='{"format": "MM/dd/yyyy"}'/>
                                 </td>
                                 <td style="width: 15%;border: 1px solid black;text-align: center">
                                     <span t-field="o.write_uid.name"/>
@@ -99,14 +99,14 @@
                                 <td style="width: 15%;border: 1px solid black;text-align: center">GROSS WEIGHT</td>
                                 <td style="width: 5%;border: 1px solid black;text-align: center">FRT CLS</td>
                             </tr>
-                            <t t-set="total_net" t-value="0"/>
-                            <t t-set="total_gross" t-value="0"/>
+                            <!--<t t-set="total_net" t-value="0"/>-->
+                            <!--<t t-set="total_gross" t-value="0"/>-->
                             <tr t-foreach="o.move_lines" t-as="move_line">
                                 <td style="width: 9%;border-left: 1px solid black;text-align: center">
-                                    <span t-field="move_line.sale_line_id.product_uom_qty"></span>
+                                    <span t-esc="'%.2f'% move_line.get_ordered_qty_bol_report()" />
                                 </td>
                                 <td style="width: 9%;border-left: 1px solid black;text-align: center">
-                                    <span t-field="move_line.product_uom_qty"></span>
+                                    <span t-esc="'%.2f'% move_line.get_shipped_qty_bol_report()" />
                                 </td>
                                 <td style="width: 18%;border-left: 1px solid black;text-align: center">
                                     <span t-if="move_line.sale_line_id.product_packaging" t-field="move_line.sale_line_id.product_packaging"></span>
@@ -114,18 +114,18 @@
                                 </td>
                                 <td style="width: 3%;border-left: 1px solid black;text-align: center"></td>
                                 <td style="width: 26%;border-left: 1px solid black;text-align: left">
-                                    <span t-if="move_line.description_picking" t-field="move_line.description_picking"/>
-                                    <span t-if="not move_line.description_picking" t-field="move_line.product_id.name"/><br/>
+                                    <!--<span t-if="move_line.description_picking" t-field="move_line.description_picking"/>-->
+                                    <!--<span t-if="not move_line.description_picking" t-field="move_line.product_id.name"/><br/>-->
                                     <span t-field="move_line.product_id.bol_shipping_description"/><br/>
                                     <span t-field="move_line.sale_line_id.name"/>
                                 </td>
                                 <td style="width: 15%;border-left: 1px solid black;text-align: center">
                                     <span t-esc="move_line.sale_line_id.product_uom_qty*move_line.product_id.weight"/>
-                                    <t t-set="total_net" t-value="move_line.sale_line_id.product_uom_qty*move_line.product_id.weight"/>
+                                    <!--<t t-set="total_net" t-value="total_net+move_line.sale_line_id.product_uom_qty*move_line.product_id.weight"/>-->
                                 </td>
                                 <td style="width: 15%;border-left: 1px solid black;text-align: center">
                                     <span t-esc="move_line.sale_line_id.product_uom_qty*move_line.product_id.weight"/>
-                                    <t t-set="total_gross" t-value="move_line.sale_line_id.product_uom_qty*move_line.product_id.weight"/>
+                                    <!--<t t-set="total_gross" t-value="total_gross+move_line.sale_line_id.product_uom_qty*move_line.product_id.weight"/>-->
                                 </td>
                                 <td style="width: 5%;border-left: 1px solid black;text-align: center">
                                     <span t-field="move_line.product_id.freight_class"/>
@@ -136,12 +136,12 @@
                                 <td style="width: 9%;border-left: 1px solid black;border-bottom: 1px solid black;text-align: center"></td>
                                 <td style="width: 18%;border-left: 1px solid black;border-bottom: 1px solid black;text-align: center"></td>
                                 <td style="width: 3%;border-left: 1px solid black;border-bottom: 1px solid black;text-align: center"></td>
-                                <td style="width: 26%;border-left: 1px solid black;border-top: 1px solid black;border-bottom: 1px solid black;text-align: right"><b>Total Weights:</b></td>
+                                <td style="width: 26%;border-left: 1px solid black;border-top: 1px solid black;border-bottom: 1px solid black;text-align: right;padding-top: 7px;padding-right: 7px;padding-bottom: 7px"><b>Total Weights:</b></td>
                                 <td style="width: 15%;border-left: 1px solid black;border-top: 1px solid black;border-bottom: 1px solid black;text-align: center">
-                                    <span t-esc="total_net"></span>
+                                    <span t-field="o.shipping_weight"></span>
                                 </td>
                                 <td style="width: 15%;border-left: 1px solid black;border-top: 1px solid black;border-bottom: 1px solid black;text-align: center">
-                                    <span t-esc="total_gross"></span>
+                                    <span t-field="o.shipping_weight"></span>
                                 </td>
                                 <td style="width: 5%;border-left: 1px solid black;text-align: center"></td>
                             </tr>
@@ -149,62 +149,74 @@
                     </table>
 
 
+                    <div class="footer">
+                        <table style="width: 100%;font-size: 8px" class="table table-bordered">
+                            <tbody>
+                                <tr>
+                                    <td colspan="2">
+                                        I CERTIFY THAT I HAVE CHECKED DELIVERING CARRIER COMPARTMENTS AND STORAGE TANK HOOKUPS
+                                        <br/><br/>
+                                        X_____________________________________________________________________________________
+                                        <br/>SIGNATURE
+                                    </td>
+                                    <td colspan="3">
+                                        DRIVER ACKNOWLEDGES POSSESSION OF CURRENT ERG GUIDE BOOK OF EQUIVALENT
+                                        <br/><br/><br/>
+                                        X_____________________________________________________________________________________
+                                        <br/>SIGNATURE</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="5">
+                                        This is to certify that the above named materials are properly classified, described, packaged, marked and labelled, and are in proper condition for transportation according to the applicable regulations of the Department of Transportation.
+                                        <br/>
+                                        NAME OF COMPANY, Shipper - per _________________________________________________________________________________________________________________
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><b>SHIPPER</b></td>
+                                    <td rowspan="2">
+                                        Subject to section 7 of the conditions, if this shipment is to be delivered to the consignee without recourse on the consignor, the consignor shall sign the following statement:
+                                        <br/><br/>
+                                        The carrier shall not make delivery of this shipment without payment of freight and all other lawful charges.
+                                        <br/><br/>
+                                        ________________________________________________________________________<br/>
+                                        (Signature of consignor)
+                                    </td>
+                                    <td rowspan="2">
+                                        If the shipment moves between two ports by a carrier by water the law requires that the bill of lading shall state whether it is "carrier's or shipper's weight"
+                                    </td>
+                                    <td colspan="2"><b>COD</b> Amt: $  0.00</td>
+                                </tr>
+                                <tr>
+                                    <td rowspan="2">
+                                        <span t-field="o.company_id.partner_id"
+                                            t-options='{"widget": "contact", "fields": ["name", "address"], "no_marker": true}'/>
+                                    </td>
+                                    <td>
+                                        FREIGHT CHARGES <br/>
+                                        If charges are to be prepaid, write or stamp here, "TO BE PREPAID"
+                                    </td>
+                                    <td rowspan="2"></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        DELIVERY RECEIPT - Received in good order.<br/>
+                                        Customer-Customer's carrier certifies that the container supplier by it for this shipment is a proper container for transportation of the materials as below described:<br/>
+                                        For ______________________________________________________________<br/>
+                                        By: ______________________________________________________________
+                                    </td>
+                                    <td>
+                                        Carrier certifies that the container supplied by carrier for this shipment is a proper container for transportation of the materials as below described:<br/>
+                                        Carrier Per ______________________________________________________________<br/>
+                                        Agent:      ______________________________________________________________
+                                    </td>
+                                    <td>COLLECT</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
 
-                    <!--<table style="width: 100%;border-collapse: collapse;" class="table table-bordered">
-                        <tbody>
-                            <tr>
-                                <td style="border: 1px solid black" colspan="3"><div style="writing-mode: vertical-lr; text-orientation: upright;word-wrap: break-word;">Shipe to</div></td>
-                                <td style="border: 1px solid black" colspan="3">sold to</td>
-                                <td style="border: 1px solid black" rowspan="3">For chemical</td>
-                                <td style="border: 1px solid black" rowspan="5"></td>
-                            </tr>
-                            <tr>
-                                <td style="border: 1px solid black">cust no</td>
-                                <td style="border: 1px solid black" colspan="2">ship via</td>
-                                <td style="border: 1px solid black" colspan="3" rowspan="2">ship via carrier</td>
-                            </tr>
-                            <tr>
-                                <td style="border: 1px solid black">data cust no</td>
-                                <td style="border: 1px solid black" colspan="2">data ship via</td>
-                            </tr>
-                            <tr>
-                                <td style="border: 1px solid black">cust order no</td>
-                                <td style="border: 1px solid black">ship date</td>
-                                <td style="border: 1px solid black">freight</td>
-                                <td style="border: 1px solid black" colspan="2">FOB remark</td>
-                                <td style="border: 1px solid black">del date</td>
-                                <td style="border: 1px solid black">checked by</td>
-                            </tr>
-                            <tr>
-                                <td  style="border: 1px solid black">data cust order no</td>
-                                <td  style="border: 1px solid black">data ship date</td>
-                                <td  style="border: 1px solid black">data freight</td>
-                                <td  style="border: 1px solid black" colspan="2">data fob remark</td>
-                                <td  style="border: 1px solid black">data del date</td>
-                                <td  style="border: 1px solid black">data checked by</td>
-                            </tr>
-                            <tr>
-                                <td  style="border: 1px solid black">qty ordered</td>
-                                <td  style="border: 1px solid black">qty shipped</td>
-                                <td  style="border: 1px solid black">packaging</td>
-                                <td  style="border: 1px solid black">HM</td>
-                                <td  style="border: 1px solid black">Description</td>
-                                <td  style="border: 1px solid black">net weight</td>
-                                <td  style="border: 1px solid black">gross weight</td>
-                                <td  style="border: 1px solid black">FRT CLS</td>
-                            </tr>
-                            <tr>
-                                <td  style="border: 1px solid black"></td>
-                                <td  style="border: 1px solid black"></td>
-                                <td  style="border: 1px solid black"></td>
-                                <td  style="border: 1px solid black"></td>
-                                <td  style="border: 1px solid black"></td>
-                                <td  style="border: 1px solid black"></td>
-                                <td  style="border: 1px solid black"></td>
-                                <td  style="border: 1px solid black"></td>
-                            </tr>
-                        </tbody>
-                    </table>-->
+
                 </div>
             </t>
          </t>

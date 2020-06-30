@@ -79,7 +79,7 @@
                                 <td style="width: 4%;border-style: none"></td>
                             </tr>
                             <tr>
-                                <td style="border: 1px solid black;width:20%;text-align:center"><span t-field="docs.scheduled_date" t-options='{"format": "m/d/yyy"}'/></td>
+                                <td style="border: 1px solid black;width:20%;text-align:center"><span t-field="docs.scheduled_date" t-options='{"format": "MM/dd/yyyy"}'/></td>
                                 <td style="width: 4%;border-style: none"></td>
                             </tr>
                             <tr>
@@ -98,7 +98,7 @@
 
         <template id="bol_report_footer">
             <div class="footer">
-                <table style="width: 100%;font-size: 8px" class="table table-bordered">
+                <!--<table style="width: 100%;font-size: 8px" class="table table-bordered">
                     <tbody>
                         <tr>
                             <td colspan="2">
@@ -161,7 +161,7 @@
                             <td>COLLECT</td>
                         </tr>
                     </tbody>
-                </table>
+                </table>-->
             </div>
         </template>
 
