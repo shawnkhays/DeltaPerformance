@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="paperformat_bol" model="report.paperformat">
+            <field name="name">Bill Of Lading</field>
+            <field name="default" eval="True" />
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">60</field>
+            <field name="margin_bottom">90</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">55</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report
+                string="Bill Of Lading"
+                id="action_report_bol"
+                model="stock.picking"
+                report_type="qweb-pdf"
+                name="bol_report.report_bol"
+                file="bol_report.report_bol"
+                paperformat="paperformat_bol"
+                print_report_name="'BOL - %s - %s' % (object.partner_id.name or '', object.name)"
+        />
+
+        <!--<template id="bol_layout">
+            <t t-if="not o" t-set="o" t-value="doc"/>
+            <div class="header">
+                <div class="row">
+                    Header
+                </div>
+                <t t-raw="0"/>
+                <div class="footer">
+                    Footer
+                </div>
+            </div>
+        </template>-->
+
+        <template id="bol_layout">
+            <t t-if="not o and doc">
+                <t t-set="o" t-value="doc"/>
+            </t>
+            <t t-if="o and 'company_id' in o">
+                <t t-set="company" t-value="o.company_id"></t>
+            </t>
+            <t t-if="not o or not 'company_id' in o">
+                <t t-set="company" t-value="res_company"></t>
+            </t>
+
+            <t t-call="bol_report.bol_report_header"/>
+            <t t-raw="0"/>
+            <t t-call="bol_report.bol_report_footer"/>
+        </template>
+
+        <template id="bol_report_header">
+            <div class="header">
+                    <p>
+                        STRAIGHT BILL OF LADING
+                    </p>
+                    <table style="width: 100%;font-size: 13px" class="table">
+                        <tbody>
+                            <tr>
+                                <td rowspan="4" style="width: 61%;border-style: none">
+                                    From: <span t-field="company.partner_id.name"
+                                    /> <br/>
+                                    At: <span t-field="company.partner_id"
+                                        t-options='{"widget": "contact", "fields": ["address"], "no_marker": true}'
+                                    /> <br/>
+                                    Phone: <span t-field="company.partner_id.phone" />
+                                </td>
+                                <td rowspan="3" style="border-style: none;width:15%"></td>
+                                <td style="border: 1px solid black;background-color: #C7D0D4;width:20%;text-align:center">B/L Date</td>
+                                <td style="width: 4%;border-style: none"></td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid black;width:20%;text-align:center"><span t-field="docs.scheduled_date" t-options='{"format": "MM/dd/yyyy"}'/></td>
+                                <td style="width: 4%;border-style: none"></td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid black;background-color: #C7D0D4;width:20%;text-align:center">B/L NO.</td>
+                                <td style="width: 4%;border-style: none"></td>
+                            </tr>
+                            <tr>
+                                <td style="border-style: none;width:15%">Page: <span class="page"/> of <span class="topage"/></td>
+                                <td style="border: 1px solid black;width:20%;text-align:center"><span t-field="docs.name"/></td>
+                                <td style="width: 4%;border-style: none"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+        </template>
+
+        <template id="bol_report_footer">
+            <div class="footer">
+                <!--<table style="width: 100%;font-size: 8px" class="table table-bordered">
+                    <tbody>
+                        <tr>
+                            <td colspan="2">
+                                I CERTIFY THAT I HAVE CHECKED DELIVERING CARRIER COMPARTMENTS AND STORAGE TANK HOOKUPS
+                                <br/><br/>
+                                X_____________________________________________________________________________________
+                                <br/>SIGNATURE
+                            </td>
+                            <td colspan="3">
+                                DRIVER ACKNOWLEDGES POSSESSION OF CURRENT ERG GUIDE BOOK OF EQUIVALENT
+                                <br/><br/><br/>
+                                X_____________________________________________________________________________________
+                                <br/>SIGNATURE</td>
+                        </tr>
+                        <tr>
+                            <td colspan="5">
+                                This is to certify that the above named materials are properly classified, described, packaged, marked and labelled, and are in proper condition for transportation according to the applicable regulations of the Department of Transportation.
+                                <br/>
+                                NAME OF COMPANY, Shipper - per _________________________________________________________________________________________________________________
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>SHIPPER</b></td>
+                            <td rowspan="2">
+                                Subject to section 7 of the conditions, if this shipment is to be delivered to the consignee without recourse on the consignor, the consignor shall sign the following statement:
+                                <br/><br/>
+                                The carrier shall not make delivery of this shipment without payment of freight and all other lawful charges.
+                                <br/><br/>
+                                ________________________________________________________________________<br/>
+                                (Signature of consignor)
+                            </td>
+                            <td rowspan="2">
+                                If the shipment moves between two ports by a carrier by water the law requires that the bill of lading shall state whether it is "carrier's or shipper's weight"
+                            </td>
+                            <td colspan="2"><b>COD</b> Amt: $  0.00</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="2">
+                                <span t-field="company.partner_id"
+                                    t-options='{"widget": "contact", "fields": ["name", "address"], "no_marker": true}'/>
+                            </td>
+                            <td>
+                                FREIGHT CHARGES <br/>
+                                If charges are to be prepaid, write or stamp here, "TO BE PREPAID"
+                            </td>
+                            <td rowspan="2"></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                DELIVERY RECEIPT - Received in good order.<br/>
+                                Customer-Customer's carrier certifies that the container supplier by it for this shipment is a proper container for transportation of the materials as below described:<br/>
+                                For ______________________________________________________________<br/>
+                                By: ______________________________________________________________
+                            </td>
+                            <td>
+                                Carrier certifies that the container supplied by carrier for this shipment is a proper container for transportation of the materials as below described:<br/>
+                                Carrier Per ______________________________________________________________<br/>
+                                Agent:      ______________________________________________________________
+                            </td>
+                            <td>COLLECT</td>
+                        </tr>
+                    </tbody>
+                </table>-->
+            </div>
+        </template>
+
+
+    </data>
+</odoo>

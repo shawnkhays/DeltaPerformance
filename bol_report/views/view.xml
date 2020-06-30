@@ -1,0 +1,64 @@
+<odoo>
+    <record id="account_move_bol_fields" model="ir.ui.view">
+        <field name="name">account.move.bol.fiels</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <data>
+                <xpath expr="//field[@name='invoice_line_ids']//tree//field[@name='name']" position="after">
+                    <field name="customer_part_number" />
+                </xpath>
+            </data>
+        </field>
+    </record>
+
+    <record id="sale_order_bol_fields" model="ir.ui.view">
+        <field name="name">sale.order.bol.fiels</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <data>
+                <field name="client_order_ref" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="payment_term_id" position="after">
+                    <field name="client_order_ref" />
+                </field>
+                <xpath expr="//field[@name='order_line']//tree//field[@name='name']" position="after">
+                    <field name="customer_part_number" />
+                </xpath>
+            </data>
+        </field>
+    </record>
+
+
+    <record id="sale_order_bol_fields2" model="ir.ui.view">
+        <field name="name">sale.order.bol.fiels2</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale_stock.view_order_form_inherit_sale_stock"/>
+        <field name="arch" type="xml">
+            <data>
+                <field name="picking_policy" position="after">
+                    <field name="freight_charge" />
+                    <field name="fob_remark" />
+                </field>
+            </data>
+        </field>
+    </record>
+
+    <record id="product_product_bol_fields" model="ir.ui.view">
+        <field name="name">product.product.bol.fiels</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+            <data>
+                <field name="default_code" position="after">
+                    <field name="freight_class" />
+                </field>
+                <field name="company_id" position="before">
+                    <field name="bol_shipping_description" />
+                </field>
+            </data>
+        </field>
+    </record>
+</odoo>
