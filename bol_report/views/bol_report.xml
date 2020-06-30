@@ -103,10 +103,10 @@
                             <!--<t t-set="total_gross" t-value="0"/>-->
                             <tr t-foreach="o.move_lines" t-as="move_line">
                                 <td style="width: 9%;border-left: 1px solid black;text-align: center">
-                                    <span t-esc="move_line.get_ordered_qty_bol_report()" />
+                                    <span t-esc="'%.2f'% move_line.get_ordered_qty_bol_report()" />
                                 </td>
                                 <td style="width: 9%;border-left: 1px solid black;text-align: center">
-                                    <span t-esc="move_line.get_shipped_qty_bol_report()" />
+                                    <span t-esc="'%.2f'% move_line.get_shipped_qty_bol_report()" />
                                 </td>
                                 <td style="width: 18%;border-left: 1px solid black;text-align: center">
                                     <span t-if="move_line.sale_line_id.product_packaging" t-field="move_line.sale_line_id.product_packaging"></span>
