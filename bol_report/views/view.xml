@@ -1,27 +1,13 @@
 <odoo>
-    <record id="stock_picking_bol_fields" model="ir.ui.view">
-        <field name="name">stock.picking.bol.fiels</field>
-        <field name="model">stock.picking</field>
-        <field name="inherit_id" ref="stock.view_picking_form"/>
-        <field name="arch" type="xml">
-            <data>
-                <field name="origin" position="after">
-                    <field name="freight_charge" attrs="{'invisible': [('picking_type_code', '!=', 'outgoing')]}"/>
-                    <field name="fob_remark" attrs="{'invisible': [('picking_type_code', '!=', 'outgoing')]}" />
-                </field>
-            </data>
-        </field>
-    </record>
-
     <record id="account_move_bol_fields" model="ir.ui.view">
         <field name="name">account.move.bol.fiels</field>
         <field name="model">account.move</field>
         <field name="inherit_id" ref="account.view_move_form"/>
         <field name="arch" type="xml">
             <data>
-                <field name="company_id" position="before">
+                <xpath expr="//field[@name='invoice_line_ids']//tree//field[@name='name']" position="after">
                     <field name="customer_part_number" />
-                </field>
+                </xpath>
             </data>
         </field>
     </record>
@@ -37,16 +23,33 @@
                 </field>
                 <field name="payment_term_id" position="after">
                     <field name="client_order_ref" />
+                </field>
+                <xpath expr="//field[@name='order_line']//tree//field[@name='name']" position="after">
                     <field name="customer_part_number" />
+                </xpath>
+            </data>
+        </field>
+    </record>
+
+
+    <record id="sale_order_bol_fields2" model="ir.ui.view">
+        <field name="name">sale.order.bol.fiels2</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale_stock.view_order_form_inherit_sale_stock"/>
+        <field name="arch" type="xml">
+            <data>
+                <field name="picking_policy" position="after">
+                    <field name="freight_charge" />
+                    <field name="fob_remark" />
                 </field>
             </data>
         </field>
     </record>
 
-    <record id="product_product_bol_fields" model="ir.ui.view">
-        <field name="name">product.product.bol.fiels</field>
-        <field name="model">product.product</field>
-        <field name="inherit_id" ref="product.product_normal_form_view"/>
+    <record id="product_template_bol_fields" model="ir.ui.view">
+        <field name="name">product.template.bol.fiels</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
         <field name="arch" type="xml">
             <data>
                 <field name="default_code" position="after">
