@@ -1,0 +1,14 @@
+<odoo>
+  <data>
+
+    <template id="invoice_report_inherit" inherit_id="account.report_invoice_document">
+        <!-- Adding Customer Part Ref to Invoice line items -->
+        <xpath expr="//td[@name='account_invoice_line_name']" position="replace">
+            <td name="account_invoice_line_name">
+                <span t-field="line.name" t-options="{'widget': 'text'}"/>
+                <t t-if="line.customer_part_number"><br/>Customer Part Ref: <span t-field="line.customer_part_number"/></t>
+            </td>
+        </xpath>
+    </template>
+  </data>
+</odoo>
