@@ -116,7 +116,9 @@
                                 <td style="width: 39%;border-left: 1px solid black;text-align: left;padding:10px 5px 10px 5px">
                                     <!--<span t-if="move_line.description_picking" t-field="move_line.description_picking"/>-->
                                     <!--<span t-if="not move_line.description_picking" t-field="move_line.product_id.name"/><br/>-->
-                                    <span t-field="move_line.product_id.product_tmpl_id.bol_shipping_description"/><br/>
+                                    <!-- Added conditional formatting to suppress if blank so you don't get a blank line with a br and makes it look not centered -->
+                                    <t t-if="move_line.product_id.product_tmpl_id.bol_shipping_description"><span t-if="move_line.product_id.product_tmpl_id.bol_shipping_description" t-field="move_line.product_id.product_tmpl_id.bol_shipping_description"/><br/></t>
+                                    <!-- <span t-if="move_line.product_id.product_tmpl_id.bol_shipping_description" t-field="move_line.product_id.product_tmpl_id.bol_shipping_description"/><br/> -->
                                     <span t-field="move_line.sale_line_id.name"/>
                                 </td>
                                 <td style="width: 12%;border-left: 1px solid black;text-align: right;padding-right: 7px">
